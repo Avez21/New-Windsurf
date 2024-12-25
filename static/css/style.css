@@ -1,0 +1,298 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.viewport {
+    width: 100%;
+    height: 300px;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background-color: #000;
+}
+
+.viewport > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.viewport > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.scanner-guide-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 150px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+.scanner-guide-box::before,
+.scanner-guide-box::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: #fff;
+    border-style: solid;
+}
+
+.scanner-guide-box::before {
+    top: -2px;
+    left: -2px;
+    border-width: 2px 0 0 2px;
+}
+
+.scanner-guide-box::after {
+    bottom: -2px;
+    right: -2px;
+    border-width: 0 2px 2px 0;
+}
+
+/* Scanning line animation */
+.scanning-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #ff0000 20%, 
+        #ff0000 80%, 
+        transparent 100%
+    );
+    animation: scan 2s linear infinite;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+/* Analyzing animation */
+.analyzing-indicator {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: none;
+}
+
+.analyzing-indicator.active {
+    display: block;
+}
+
+.analyzing-dots::after {
+    content: '';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80% { content: '...'; }
+}
+
+/* Scanner status indicators */
+.scanner-status {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 1000;
+    display: none;
+}
+
+.scanner-status.active {
+    display: block;
+}
+
+/* Corner markers for guide box */
+.corner-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00ff00;
+}
+
+.corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+.corner-tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+.corner-bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+.stats {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.matched {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.not-matched {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+    font-weight: bold;
+}
+
+#resultMessage {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#barcodeCount {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#scanningGuide {
+    font-size: 1rem;
+    margin-bottom: 0;
+    padding: 0.5rem;
+    background-color: rgba(0, 123, 255, 0.1);
+    border-color: rgba(0, 123, 255, 0.2);
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+}
+
+.btn-close:focus {
+    box-shadow: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* File Import Styles */
+.drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    padding: 15px;
+    text-align: center;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.drop-zone.dragover {
+    background: #e9ecef;
+    border-color: #6c757d;
+}
+
+.drop-zone p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* Search Results Styles */
+.search-highlight {
+    background-color: #ffd700;
+    padding: 2px;
+    border-radius: 2px;
+}
+
+.no-results {
+    color: #dc3545;
+    font-style: italic;
+    padding: 10px;
+    text-align: center;
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.match-list {
+    font-size: 0.9rem;
+}
+
+.match-item {
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.match-item:hover {
+    background-color: #e9ecef;
+}
+
+.match-item.matched {
+    border-left: 3px solid #28a745;
+}
+
+.match-item.unmatched {
+    border-left: 3px solid #dc3545;
+}
+
+.match-status {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.match-status.matched {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.match-status.unmatched {
+    background-color: #f8d7da;
+    color: #721c24;
+}
